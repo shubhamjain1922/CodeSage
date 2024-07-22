@@ -4,15 +4,15 @@ import { useAuth } from '../context/AuthContext';
 import { auth } from '../utils/Firebase';
 
 const Home = () => {
-  const { currentUser } = useAuth();
-
+  const { user } = useAuth();
+console.log(user)
   const handleLogout = () => {
     auth.signOut();
   };
 
   return (
     <div>
-      <h1>Welcome, {currentUser.email}</h1>
+      <h1>Welcome</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
   );

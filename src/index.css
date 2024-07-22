@@ -2,7 +2,7 @@
   --background: #1a2027;
   --text: #f7f7f7;
   --text-dark: #121212;
-  --primary: #f79e31; /* kept unchanged */
+  --primary: #f79e31;
   --accent: #66d9ef;
   --success: #34c759;
   --error: #e74c3c;
@@ -16,7 +16,7 @@
     to right,
     #13294c,
     #212934
-  ); /* kept unchanged */
+  );
 }
 body {
   background-color: var(--background);

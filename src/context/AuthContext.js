@@ -11,6 +11,7 @@ export const useAuth = () => {
     console.log('useAuth must be used within an AuthProvider');
     return;
   }
+  console.log("hh", context)
   return context;
 };
 
