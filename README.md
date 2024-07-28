@@ -37,6 +37,7 @@ Make sure you have the following installed on your system:
 
 3. Set up environment variables:
      Create a .env file in the root directory and add the following variables:
+   ```
        REACT_APP_GEMINI_API_KEY=
        REACT_APP_FIREBASE_API_KEY=
        REACT_APP_FIREBASE_AUTH_DOMAIN=
@@ -47,6 +48,7 @@ Make sure you have the following installed on your system:
        REACT_APP_FIREBASE_MEASUREMENT_ID=
 
 ### Running the Project
+```
     npm start
     # or
     yarn start
