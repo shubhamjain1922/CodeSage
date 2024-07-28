@@ -30,22 +30,25 @@ Make sure you have the following installed on your system:
    cd codesage
 
 2. Install dependencies:
-  npm install
-  # or
-  yarn install
+ ```sh
+     npm install
+      # or
+     yarn install
 
 3. Set up environment variables:
-  Create a .env file in the root directory and add the following variables:
-    REACT_APP_GEMINI_API_KEY=
-    REACT_APP_FIREBASE_API_KEY=
-    REACT_APP_FIREBASE_AUTH_DOMAIN=
-    REACT_APP_FIREBASE_PROJECT_ID=
-    REACT_APP_FIREBASE_STORAGE_BUCKET=
-    REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
-    REACT_APP_FIREBASE_APP_ID=
-    REACT_APP_FIREBASE_MEASUREMENT_ID=
+ ```sh
+     Create a .env file in the root directory and add the following variables:
+       REACT_APP_GEMINI_API_KEY=
+       REACT_APP_FIREBASE_API_KEY=
+       REACT_APP_FIREBASE_AUTH_DOMAIN=
+       REACT_APP_FIREBASE_PROJECT_ID=
+       REACT_APP_FIREBASE_STORAGE_BUCKET=
+       REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
+       REACT_APP_FIREBASE_APP_ID=
+       REACT_APP_FIREBASE_MEASUREMENT_ID=
 
 ### Running the Project
+    ```sh
     npm start
     # or
     yarn start
