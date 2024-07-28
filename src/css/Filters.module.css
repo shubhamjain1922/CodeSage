@@ -1,0 +1,17 @@
+.dropdown {
+  background: var(--navbar);
+  color: var(--text);
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  flex: 1;
+}
+
+.dropdown option {
+  background: var(--navbar);
+  color: var(--text);
+}
+
+.dropdown:focus {
+  outline: none;
+}

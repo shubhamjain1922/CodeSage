@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import { AuthProvider } from './context/AuthContext';
 import Home from './pages/Home';
 import ProtectedRoute from './utils/ProtectedRoute';
-import NotFound from './pages/NotFound';
+import Question from './pages/Question';
 
 function App() {
   return (
@@ -18,8 +18,9 @@ function App() {
           <Route path="/" element={<Navigate to="/home" />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/home" element={<Home />} />
+            <Route path="/question/:id" element={<Question />} />
           </Route>
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
     </AuthProvider>
       </Router>

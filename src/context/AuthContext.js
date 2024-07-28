@@ -1,17 +1,16 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../utils/Firebase';
+import { auth, db } from '../utils/Firebase';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    console.log('useAuth must be used within an AuthProvider');
     return;
   }
-  console.log("hh", context)
   return context;
 };
 
@@ -21,16 +20,27 @@ export const AuthProvider = ({ children }) => {
   const location = useLocation();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      // Redirect based on the authentication state
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        try {
+          const userDocRef = doc(db, 'users', user?.uid);
+          const docSnap = await getDoc(userDocRef);
+
+          if (docSnap.exists()) {
+            setUser({...docSnap.data(), id: user?.uid});
+          }
+        } catch (err) {
+          alert('Some Error occurred'); //add toast
+          if (location.pathname !== '/login' && location.pathname !== '/signup') {
+            navigate('/login');
+          }
+        }
         if (location.pathname === '/login' || location.pathname === '/signup') {
-          navigate('/'); // Redirect to home if already logged in
+          navigate('/');
         }
       } else {
         if (location.pathname !== '/login' && location.pathname !== '/signup') {
-          navigate('/login'); // Redirect to login if not authenticated
+          navigate('/login');
         }
       }
     });

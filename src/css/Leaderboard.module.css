@@ -1,0 +1,55 @@
+.leaderboardContainer {
+  background: var(--card-background);
+  border-radius: 10px;
+  padding: 20px;
+  color: var(--text);
+  padding-bottom: 30px;
+}
+
+.leaderboardTitle {
+  text-align: center;
+  color: var(--primary);
+}
+
+.leaderboardTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: fixed;
+}
+
+.leaderboardTable th,
+.leaderboardTable td {
+  padding: 10px;
+  text-align: left;
+}
+
+.leaderboardTable th {
+  background: var(--navbar);
+  color: var(--text);
+}
+
+.leaderboardTable td {
+  background: var(--background);
+}
+
+.pointsColumn {
+  width: 20%;
+}
+
+.highlightRow td {
+  background-color: var(--accent);
+  color: var(--text-dark);
+}
+
+.leaderboardTable th:first-child,
+.leaderboardTable td:first-child {
+  width: 10%;
+}
+
+.nameColumn {
+  width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

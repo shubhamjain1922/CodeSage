@@ -1,0 +1,57 @@
+.questionTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.questionTable th,
+.questionTable td {
+  padding: 10px;
+  text-align: left;
+  width: 10%;
+}
+
+.questionTable th {
+  background: var(--navbar);
+  color: var(--text);
+}
+
+.questionTable td {
+  cursor: pointer;
+  padding: 20px 10px;
+  border-bottom: 1px solid #6e6d6d;
+}
+
+.questionTable tbody tr {
+  background-color: var(--background);
+}
+.questionTable tbody tr:hover {
+  background-color: var(--keywords) !important;
+}
+
+.nameColumn {
+  width: 70% !important;
+  max-width: 300px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.infoColumn {
+  text-transform: capitalize;
+}
+
+.checkIcon {
+  color: green;
+}
+
+.questionTable th:first-child,
+.questionTable td:first-child {
+  text-align: center;
+}
+
+.empty {
+  color: rgb(212, 210, 210);
+  margin-top: 40px;
+  text-align: center;
+}

@@ -7,7 +7,6 @@
   }
   
   .card {
-    /* background-color: var(--card-background); */
     background-image: var(--card-background);
     padding: 2rem;
     border-radius: 8px;
@@ -48,6 +47,14 @@
     color: var(--primary);
 }
 
-.signup-link {
+.loginLink {
     color: var(--accent);
+}
+
+.loginText {
+  margin-top: 20px;
+}
+
+.buttonContainer {
+  margin-top: 1rem;
 }

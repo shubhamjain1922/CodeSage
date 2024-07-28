@@ -1,0 +1,53 @@
+
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: var(--card-background);
+    color: var(--text);
+  }
+  
+  .navbarLeft {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profileSection {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profileIcon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
+  
+  .profileName {
+    padding-right: 15px;
+    margin-right: 15px;
+    text-transform: capitalize;
+    font-size: 18px;
+    border-right: 1px solid grey;
+  }
+  
+  .logoutButton {
+    background-color: var(--accent);
+    color: var(--text-dark);
+    border: none;
+    padding: 8px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .navbarRight {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbarLogo {
+    height: 50px;
+    cursor: pointer;
+  }
+  

@@ -1,7 +1,6 @@
-button {
+.button {
   width: 100%;
   padding: 16px;
-  margin-top: 1rem;
   background-color: var(--accent);
   color: var(--text-dark);
   border: none;
@@ -12,7 +11,7 @@ button {
   align-items: center;
   justify-content: center;
 }
-button:disabled {
+.button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../utils/Firebase';
 import logo from '../assets/images/RemovebgLogo.png';
-import '../css/Login.css';
+import styles from '../css/Login.module.css';
 import Button from '../components/button';
 
 const Login = () => {
@@ -12,8 +11,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { setUser } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,9 +26,7 @@ const Login = () => {
     }
     try {
       setIsLoading(true);
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
-      navigate('/');
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       setIsLoading(false);
       if (error.code === 'auth/invalid-credential') {
@@ -43,12 +38,12 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
-      <div className="card">
-        <div className='logoContainer'>
-          <img src={logo} alt="App Logo" className="logo" />
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt="App Logo" className={styles.logo} />
         </div>
-        <h1 className="title">Login</h1>
+        <h1 className={styles.title}>Login</h1>
         <form onSubmit={handleSubmit}>
           <input
             type="email"
@@ -56,6 +51,7 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className={styles.input}
           />
           <input
             type="password"
@@ -63,12 +59,15 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className={styles.input}
           />
-          {error && <p className="error">{error}</p>}
-          <Button text='Submit' disabled={!email || !password } loading={isLoading} />
+          {error && <p className={styles.error}>{error}</p>}
+          <div className={styles.buttonContainer}>
+            <Button text='Submit' disabled={!email || !password } loading={isLoading} />
+          </div>
         </form>
-        <p className="signup-text">
-          Don't have an account? <Link to="/signup" className="signup-link">Sign up</Link>
+        <p className={styles.signupText}>
+          Don't have an account? <Link to="/signup" className={styles.signupLink}>Sign up</Link>
         </p>
       </div>
     </div>

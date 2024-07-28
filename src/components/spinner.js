@@ -1,9 +1,9 @@
 // Spinner.js
 import React from 'react';
-import '../css/Spinner.css'; // Import spinner CSS
+import styles from '../css/Spinner.module.css'; // Import spinner CSS
 
-const Spinner = () => (
-  <div className="spinner"></div>
+const Spinner = ({className}) => (
+  <div className={[styles.spinner, className].join(" ")}></div>
 );
 
 export default Spinner;

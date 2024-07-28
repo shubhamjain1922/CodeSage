@@ -1,0 +1,99 @@
+.flexRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.body {
+  padding: 20px;
+  gap: 20px;
+}
+
+.leftPanel {
+  width: 70%;
+}
+
+.rightPanel {
+  width: 30%;
+}
+
+.cardContainer {
+  gap: 20px;
+}
+
+.card {
+  flex: 1;
+  border-radius: 10px;
+  height: 280px;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.prodCode {
+  background-image: url("../assets/images/proCode.png");
+}
+
+.debug {
+  background-image: url("../assets/images/debugging.jpg");
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.overlay p {
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.selected {
+  border: 2px solid var(--primary);
+}
+
+.selected p {
+  color: var(--primary);
+}
+
+.header {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+.filterContainer {
+  display: flex;
+  align-content: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.generateQuestion {
+  background-color: var(--accent);
+  color: var(--text-dark);
+  border: none;
+  padding: 8px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.customSpinner {
+  border-color: rgb(99, 99, 99);
+  border-left-color: var(--accent);
+  margin: auto;
+  margin-top: 50px;
+}

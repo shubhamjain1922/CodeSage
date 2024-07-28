@@ -4,9 +4,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../utils/Firebase';
 import logo from '../assets/images/RemovebgLogo.png';
-import '../css/Signup.css'; // Create this CSS file for signup page
+import styles from '../css/Signup.module.css'; // Update import to CSS module
 import Button from '../components/button';
-import { doc, setDoc } from 'firebase/firestore'; 
+import { doc, getDoc, setDoc } from 'firebase/firestore'; 
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -41,9 +41,21 @@ const Signup = () => {
         name,
         email,
         createdAt: new Date(),
+        score: 0,
       });
-      setUser(user);
-      navigate('/');
+      try {
+        const userDocRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(userDocRef);
+
+        if (docSnap.exists()) {
+          setUser(docSnap.data());
+          navigate('/');
+        } else {
+          setError('Some Error occurred');
+        }
+      } catch (err) {
+        setError('Some Error occurred');
+      }
     } catch (error) {
       setIsLoading(false);
       if (error.code === 'auth/email-already-in-use') {
@@ -55,12 +67,12 @@ const Signup = () => {
   };
 
   return (
-    <div className="container">
-      <div className="card">
-        <div className='logoContainer'>
-          <img src={logo} alt="App Logo" className="logo" />
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt="App Logo" className={styles.logo} />
         </div>
-        <h1 className="title">Sign Up</h1>
+        <h1 className={styles.title}>Sign Up</h1>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -68,6 +80,7 @@ const Signup = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            className={styles.input}
           />
           <input
             type="email"
@@ -75,6 +88,7 @@ const Signup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className={styles.input}
           />
           <input
             type="password"
@@ -82,12 +96,15 @@ const Signup = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className={styles.input}
           />
-          {error && <p className="error">{error}</p>}
-          <Button text='Submit' disabled={!name || !email || !password} loading={isLoading} />
+          {error && <p className={styles.error}>{error}</p>}
+          <div className={styles.buttonContainer}>
+            <Button text='Submit' disabled={!name || !email || !password} loading={isLoading} />
+          </div>
         </form>
-        <p className="login-text">
-          Already have an account? <Link to="/login" className="login-link">Log in</Link>
+        <p className={styles.loginText}>
+          Already have an account? <Link to="/login" className={styles.loginLink}>Log in</Link>
         </p>
       </div>
     </div>
