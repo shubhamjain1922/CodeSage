@@ -48,7 +48,7 @@ Make sure you have the following installed on your system:
        REACT_APP_FIREBASE_MEASUREMENT_ID=
 
 ### Running the Project
-```
+    ```
     npm start
     # or
     yarn start
