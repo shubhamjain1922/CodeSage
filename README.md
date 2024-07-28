@@ -1,6 +1,6 @@
 # CodeSage
 
-Welcome to **CodeSage**! This repository contains the code and resources for CodeSage, a platform designed to help developers improve their coding skills through educational code snippets that simulate real-life PR reviews.
+Welcome to [CodeSage](https://codesage-b4c5a.web.app/home). This repository contains the code and resources for CodeSage, a platform designed to help developers improve their coding skills through educational code snippets that simulate real-life PR reviews.
 
 ## Features
 
