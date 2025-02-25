@@ -42,6 +42,10 @@ const Signup = () => {
         email,
         createdAt: new Date(),
         score: 0,
+        questionsGenerated: {
+          date: null,
+          count: 0
+        }
       });
       try {
         const userDocRef = doc(db, 'users', user.uid);

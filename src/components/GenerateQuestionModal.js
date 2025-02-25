@@ -9,13 +9,15 @@ import {
 import Button from "./button";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import prompt from "../utils/prompt";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../utils/Firebase";
 import CryptoJS from 'crypto-js';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const GenerateQuestionModal = (props) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [questionType, setQuestionType] = useState(props.questionType || "");
   const [difficulty, setDifficulty] = useState(props.difficulty || "");
   const [language, setLanguage] = useState(props.language || "");
@@ -39,6 +41,17 @@ const GenerateQuestionModal = (props) => {
     
     try {
       setIsLoading(true);
+
+      const userDocRef = doc(db, 'users', user.id);
+    const userDoc = await getDoc(userDocRef);
+    const userData = userDoc.data();
+    const today = new Date().toISOString().split('T')[0];
+    // Check if the user has reached the daily limit
+    if (userData.questionsGenerated.date === today && userData.questionsGenerated.count >= 3) {
+      alert("You have hit the limit for today, generate more questions tomorrow.");
+      setIsLoading(false);
+      return;
+    }
   
       // Initialize AI model
       const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_API_KEY);
@@ -72,6 +85,16 @@ const GenerateQuestionModal = (props) => {
         };
         const hash = CryptoJS.SHA256(JSON.stringify(questionObj)).toString(CryptoJS.enc.Hex);
         await setDoc(doc(db, 'questions', hash), questionObj);
+
+        // Update user's questionsGenerated data
+      const newCount = userData.questionsGenerated.date === today ? userData.questionsGenerated.count + 1 : 1;
+      await updateDoc(userDocRef, {
+        questionsGenerated: {
+          date: today,
+          count: newCount
+        }
+      });
+
         setIsLoading(false);
         setProcessStep('Generate');
         navigate(`/question/${hash}`)
