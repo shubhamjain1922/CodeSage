@@ -50,7 +50,7 @@ Example of output format:
 }
 
 Generate a ${difficulty} level question in ${language} language and keep in mind - 
-Dont just give a dsa question, give me some code snippet where coding practice is wrong like we find in prs and some real life scenario
+Dont just give a dsa question, give me some code snippet where coding practice is wrong like we find in prs and some real life scenario. Also make sure to not use backtick quotes in response as i will be parsing it so that will give issues, use double or single quotes only.
 `;
   }
   return `You are a coding assistant tasked with generating code snippets for debugging practice. Your goal is to create code that meets the following criteria:
@@ -95,6 +95,6 @@ Dont just give a dsa question, give me some code snippet where coding practice i
   }
   
   Generate a ${difficulty} level question in ${language} language and keep in mind - 
-  Focus on generating code that is intentionally broken or incorrect. The user should be able to identify and fix the issues to make the code functional.
+  Focus on generating code that is intentionally broken or incorrect. The user should be able to identify and fix the issues to make the code functional. Also make sure to not use backtick quotes in response as i will be parsing it so that will give issues, use double or single quotes only.
   `;
 };

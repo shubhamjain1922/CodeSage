@@ -59,7 +59,6 @@ const GenerateQuestionModal = (props) => {
       setProcessStep('Processing question...');
       const response = result.response;
       const jsonString = response.text();
-      console.log("yy", jsonString)
       const startIndex = jsonString.indexOf('{');
       const endIndex = jsonString.lastIndexOf('}');
   
