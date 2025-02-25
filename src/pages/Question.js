@@ -85,7 +85,6 @@ const Question = () => {
 
       const response = result.response;
       const jsonString = response.text();
-      console.log("hhh", jsonString)
       const startIndex = jsonString.indexOf('{');
       const endIndex = jsonString.lastIndexOf('}');
   
