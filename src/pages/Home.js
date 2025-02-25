@@ -83,14 +83,16 @@ const Home = () => {
       setFinalQuestionData(data);
       setIsLoading(false);
     } catch (error) {
-      alert("Error getting documents: ", error);
+      alert("Error getting documents: Please reload");
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    getFilteredDocuments();
-  }, [questionType, difficulty, language]);
+    if (user.id) {
+      getFilteredDocuments();
+    }
+  }, [questionType, difficulty, language, user.id]);
 
   const handleCardClick = (type) => () => {
     setQuestionType(type);
