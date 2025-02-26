@@ -12,6 +12,7 @@ import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Spinner from "../components/spinner";
+import { useModal } from "../context/ModalContext";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Home = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
-
+  const {setIsLoginOpen} = useModal();
   const getAttemptsDocuments = async () => {
     try {
       let attemptsDoc = query(
@@ -139,6 +140,10 @@ const Home = () => {
   };
 
   const handleGenerateNewQuestion = () => {
+    if (!user || !user.id) {
+      setIsLoginOpen(true);
+      return;
+    }
     setModalOpen(true);
   };
 
