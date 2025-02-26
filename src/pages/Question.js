@@ -22,6 +22,7 @@ import { useAuth } from "../context/AuthContext";
 import Spinner from "../components/spinner";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { submissionPrompt } from "../utils/submissionPrompt";
+import { useModal } from "../context/ModalContext";
 
 const Question = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const Question = () => {
   const [attemptData, setAttemptData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
+  const {setIsLoginOpen} = useModal();
 
   const getQuestionData = async () => {
     try {
@@ -43,6 +45,17 @@ const Question = () => {
         setQuestionData(data);
       } else {
         navigate("/home");
+      }
+    } catch (error) {
+      console.error("Error getting documents: ", error);
+      navigate("/home");
+    }
+  };
+
+  const getAttemptData = async () => {
+    try {
+      if (!user || !user.id) {
+        return;
       }
       let attemptsDoc = query(
         collection(db, "attempts"),
@@ -64,8 +77,16 @@ const Question = () => {
     getQuestionData();
   }, [questionId]);
 
+  useEffect(() => {
+    getAttemptData();
+  }, [user, questionId]);
+
   const submitCode = async () => {
     try {
+      if (!user || !user.id) {
+        setIsLoginOpen(true);
+        return;
+      }
       setIsLoading(true);
   
       // Initialize AI model

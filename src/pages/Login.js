@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../utils/Firebase';
 import logo from '../assets/images/RemovebgLogo.png';
 import styles from '../css/Login.module.css';
 import Button from '../components/button';
+import { useModal } from '../context/ModalContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const {setIsSignupOpen, setIsLoginOpen} = useModal();
 
   const handleSubmit = async (e) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,6 +28,7 @@ const Login = () => {
     try {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
+      setIsLoginOpen(false);
     } catch (error) {
       setIsLoading(false);
       if (error.code === 'auth/invalid-credential') {
@@ -36,6 +38,11 @@ const Login = () => {
       }
     }
   };
+
+  const handleSignup = () => {
+    setIsSignupOpen(true)
+    setIsLoginOpen(false)
+  }
 
   return (
     <div className={styles.container}>
@@ -67,7 +74,7 @@ const Login = () => {
           </div>
         </form>
         <p className={styles.signupText}>
-          Don't have an account? <Link to="/signup" className={styles.signupLink}>Sign up</Link>
+          Don't have an account? <span onClick={handleSignup} className={styles.signupLink}>Sign up</span>
         </p>
       </div>
     </div>

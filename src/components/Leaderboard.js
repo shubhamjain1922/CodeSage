@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styles from '../css/Leaderboard.module.css';
-import { useAuth } from '../context/AuthContext';
-import { db } from '../utils/Firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import React, { useState, useEffect } from "react";
+import styles from "../css/Leaderboard.module.css";
+import { useAuth } from "../context/AuthContext";
+import { db } from "../utils/Firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 const Leaderboard = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
@@ -12,26 +12,29 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchLeaderboardData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'users'));
-        const data = querySnapshot.docs.map(doc => ({
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const data = querySnapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
         }));
 
         // Sort users by score in descending order
         data.sort((a, b) => b.score - a.score);
-
-        // Determine user rank and include them if not in top 10
-        const userIndex = data.findIndex(u => u.id === user.id);
         const top10 = data.slice(0, 10);
-        const includeUser = userIndex >= 10;
 
-        // Prepare final leaderboard data
-        const finalLeaderboardData = includeUser
-          ? [...top10, data[userIndex]]
-          : top10;
+        if (user && user.id) {
+          // Determine user rank and include them if not in top 10
+          const userIndex = data.findIndex((u) => u.id === user.id);
+          const includeUser = userIndex >= 10;
 
-        setLeaderboardData(finalLeaderboardData);
+          // Prepare final leaderboard data
+          const finalLeaderboardData = includeUser
+            ? [...top10, data[userIndex]]
+            : top10;
+
+          setLeaderboardData(finalLeaderboardData);
+        }
+        setLeaderboardData(top10);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching leaderboard data:", error);
@@ -40,7 +43,7 @@ const Leaderboard = () => {
     };
 
     fetchLeaderboardData();
-  }, [user.id]);
+  }, [user]);
 
   if (loading) return <div>Loading...</div>;
 
@@ -57,7 +60,12 @@ const Leaderboard = () => {
         </thead>
         <tbody>
           {leaderboardData.map((entry, index) => (
-            <tr key={entry.id} className={user.id === entry.id ? styles.highlightRow : ''}>
+            <tr
+              key={entry.id}
+              className={
+                user && user.id === entry.id ? styles.highlightRow : ""
+              }
+            >
               <td>{index + 1}.</td>
               <td className={styles.nameColumn}>{entry.name}</td>
               <td className={styles.pointsColumn}>{entry.score}</td>

@@ -30,17 +30,10 @@ export const AuthProvider = ({ children }) => {
             setUser({...docSnap.data(), id: user?.uid});
           }
         } catch (err) {
-          alert('Some Error occurred'); //add toast
-          if (location.pathname !== '/login' && location.pathname !== '/signup') {
-            navigate('/login');
-          }
+          alert('Some Error occurred');
         }
         if (location.pathname === '/login' || location.pathname === '/signup') {
           navigate('/');
-        }
-      } else {
-        if (location.pathname !== '/login' && location.pathname !== '/signup') {
-          navigate('/login');
         }
       }
     });

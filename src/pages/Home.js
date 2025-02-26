@@ -25,6 +25,43 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
 
+  const getAttemptsDocuments = async () => {
+    try {
+      let attemptsDoc = query(
+        collection(db, "attempts"),
+        where("userId", "==", user.id)
+      );
+      const questionIds = finalQuestionData.map((item) => item.id);
+      if (questionIds.length) {
+        attemptsDoc = query(attemptsDoc, where("questionId", "in", questionIds));
+      }
+      const attemptsQuerySnapshot = await getDocs(attemptsDoc);
+      const attemptsData = {};
+      attemptsQuerySnapshot.docs.forEach((doc) => {
+        const attemptData = doc.data();
+        attemptsData[attemptData.questionId] = true;
+      });
+      let data = finalQuestionData;
+      data.forEach((item) => {
+        item.attempted = attemptsData[item.id];
+      });
+      if (status) {
+        data = data.filter((item) => {
+          if (status === QUESTION_STATUS[0].value) {
+            return !item.attempted;
+          }
+          return item.attempted;
+        });
+      }
+      setQuestionData(data);
+      setFinalQuestionData(data);
+      setIsLoading(false);
+    } catch (error) {
+      alert("Error getting documents: Please reload");
+      setIsLoading(false);
+    }
+  };
+  
   const getFilteredDocuments = async () => {
     setIsLoading(true);
     let questionDoc = query(collection(db, "questions"));
@@ -45,40 +82,14 @@ const Home = () => {
 
     try {
       const querySnapshot = await getDocs(questionDoc);
-      const questionIds = [];
 
       let data = querySnapshot.docs.map((doc) => {
-        questionIds.push(doc.id);
         return {
           ...doc.data(),
           id: doc.id,
         };
       });
 
-      let attemptsDoc = query(
-        collection(db, "attempts"),
-        where("userId", "==", user.id)
-      );
-      if (questionIds.length) {
-        attemptsDoc = query(attemptsDoc, where("questionId", "in", questionIds));
-      }
-      const attemptsQuerySnapshot = await getDocs(attemptsDoc);
-      const attemptsData = {};
-      attemptsQuerySnapshot.docs.forEach((doc) => {
-        const attemptData = doc.data();
-        attemptsData[attemptData.questionId] = true;
-      });
-      data.forEach((item) => {
-        item.attempted = attemptsData[item.id];
-      });
-      if (status) {
-        data = data.filter((item) => {
-          if (status === QUESTION_STATUS[0].value) {
-            return !item.attempted;
-          }
-          return item.attempted;
-        });
-      }
       setQuestionData(data);
       setFinalQuestionData(data);
       setIsLoading(false);
@@ -89,10 +100,11 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (user.id) {
-      getFilteredDocuments();
+    getFilteredDocuments();
+    if (user && user.id) {
+      getAttemptsDocuments();
     }
-  }, [questionType, difficulty, language, user.id]);
+  }, [questionType, difficulty, language, user]);
 
   const handleCardClick = (type) => () => {
     setQuestionType(type);

@@ -7,6 +7,7 @@ import logo from '../assets/images/RemovebgLogo.png';
 import styles from '../css/Signup.module.css'; // Update import to CSS module
 import Button from '../components/button';
 import { doc, getDoc, setDoc } from 'firebase/firestore'; 
+import { useModal } from '../context/ModalContext';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -16,6 +17,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { setUser } = useAuth();
   const navigate = useNavigate();
+  const {setIsSignupOpen, setIsLoginOpen} = useModal();
 
   const handleSubmit = async (e) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -42,6 +44,7 @@ const Signup = () => {
         email,
         createdAt: new Date(),
         score: 0,
+        id: user.uid,
         questionsGenerated: {
           date: null,
           count: 0
@@ -53,7 +56,7 @@ const Signup = () => {
 
         if (docSnap.exists()) {
           setUser(docSnap.data());
-          navigate('/');
+          setIsSignupOpen(false);
         } else {
           setError('Some Error occurred');
         }
@@ -69,6 +72,11 @@ const Signup = () => {
       }
     }
   };
+
+  const handleSignIn = () => {
+    setIsSignupOpen(false)
+    setIsLoginOpen(true)
+  }
 
   return (
     <div className={styles.container}>
@@ -108,7 +116,7 @@ const Signup = () => {
           </div>
         </form>
         <p className={styles.loginText}>
-          Already have an account? <Link to="/login" className={styles.loginLink}>Log in</Link>
+          Already have an account? <span onClick={handleSignIn} className={styles.loginLink}>Log in</span>
         </p>
       </div>
     </div>
